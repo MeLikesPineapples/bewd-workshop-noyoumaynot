@@ -1,5 +1,6 @@
 package han.aim.se.noyoumaynot.movie.security;
 
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -9,7 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Component
 public class JwtTokenProvider {
@@ -17,34 +19,29 @@ public class JwtTokenProvider {
     @Value("${app.jwt-secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt-expiration-milliseconds}")
+    @Value("${app.jwt-expiration-days}")
     private long jwtExpirationDate;
 
-    // generate JWT token
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication) {
 
         String username = authentication.getName();
 
-        Date currentDate = new Date();
+        LocalDate issueDate = LocalDate.now();
+        LocalDate expireDate = issueDate.plusDays(jwtExpirationDate);
 
-        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
-
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .subject(username)
-                .issuedAt(new Date())
-                .expiration(expireDate)
+                .issuedAt(Date.valueOf(issueDate))
+                .expiration(Date.valueOf(expireDate))
                 .signWith(key())
                 .compact();
-
-        return token;
     }
 
-    private Key key(){
+    private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    // get username from JWT token
-    public String getUsername(String token){
+    public String getUsername(String token) {
 
         return Jwts.parser()
                 .verifyWith((SecretKey) key())
@@ -54,13 +51,11 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // validate JWT token
-    public boolean validateToken(String token){
-        Jwts.parser()
+    public boolean validateToken(String token) {
+        Jwt<?, ?> jwt = Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build()
                 .parse(token);
-        return true;
-
+        return jwt != null;
     }
 }
