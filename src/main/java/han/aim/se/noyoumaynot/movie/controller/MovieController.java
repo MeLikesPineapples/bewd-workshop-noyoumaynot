@@ -35,20 +35,20 @@ public class MovieController {
         return movieService.getMovieList();
     }
 
-    @GetMapping("/movies/show")
+    @GetMapping("/movies/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public Movie getMovieById(@RequestParam("id") String id) {
+    public Movie getMovieById(@PathVariable("id") String id) {
         return movieService.getMovieById(id);
     }
 
-    @PostMapping("/movies/add")
+    @PostMapping("/movies")
     @PreAuthorize("hasRole('ADMIN')")
     public Movie addMovie(@RequestBody Movie movie) {
         movieService.insertMovie(movie);
         return movie;
     }
 
-    @DeleteMapping("/movies/delete/{id}")
+    @DeleteMapping("/movies/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteMovie(@PathVariable("id") String id) {
         movieService.deleteMovie(id);
