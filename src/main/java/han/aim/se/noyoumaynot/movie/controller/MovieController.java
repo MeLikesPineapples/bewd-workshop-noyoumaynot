@@ -64,6 +64,7 @@ public class MovieController {
     }
 
     private Role authenticate(String token) throws AuthenticationException {
+        token = token.replaceAll("^Bearer ", "");
         if (authenticationService.isValidToken(token)) {
             return authenticationService.getRole(token);
         } else {
