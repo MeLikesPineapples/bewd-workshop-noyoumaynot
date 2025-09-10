@@ -9,7 +9,11 @@ Het is ongebruikelijk om dit zelf te bouwen.
 Spring Boot heeft immers ook hiervoor handige functionaliteit. Deze heeft echter een hoge leercurve.
 De kracht zit hem in de magie, maar als het niet werkt heb je veel kennis nodig om dit te herstellen.
 
-NB: Schrijf als software engineer later in de beroepspraktijk NOOIT je eigen security, maar gebruik altijd libraries. Security is een aparte discipline/opleiding, en "*security by obscurity* alone is discouraged and not recommended by standards bodies" ([Wikipedia, 2025](https://en.wikipedia.org/wiki/Security_through_obscurity)). Uiteindelijk gebruiken we in deze workshop dan ook ook wel bestaande hashing algoritmes.
+NB: Deze workshop is belangrijk voor begrip en leren, maar schrijf als software engineer later in de beroepspraktijk NOOIT je eigen security implementatie, maar gebruik altijd bestaande en up-to-date libraries. Security is een aparte discipline/opleiding, en vereist regelmatig updates e.d en 
+
+> "*security by obscurity* alone is discouraged and not recommended by standards bodies" — ([Wikipedia, 2025](https://en.wikipedia.org/wiki/Security_through_obscurity)).
+
+Merk op dat we in deze workshop uiteindelijk ook al bestaande hashing algoritmes en andere security standaarden gebruiken.
 
 ## Zelf aan de slag
 
