@@ -9,7 +9,7 @@ Het is ongebruikelijk om dit zelf te bouwen.
 Spring Boot heeft immers ook hiervoor handige functionaliteit. Deze heeft echter een hoge leercurve.
 De kracht zit hem in de magie, maar als het niet werkt heb je veel kennis nodig om dit te herstellen.
 
-NB: Deze workshop is belangrijk voor begrip en leren, maar schrijf als software engineer later in de beroepspraktijk NOOIT je eigen security implementatie, maar gebruik altijd bestaande en up-to-date libraries. Security is een aparte discipline/opleiding, en vereist regelmatig updates e.d en 
+NB: Deze workshop is belangrijk voor begrip en leren, maar schrijf als software engineer later in de beroepspraktijk NOOIT je eigen security implementatie, maar gebruik altijd bestaande en up-to-date libraries. Security is een aparte discipline/opleiding, en vereist regelmatig updates e.d en:
 
 > "*security by obscurity* alone is discouraged and not recommended by standards bodies" — ([Wikipedia, 2025](https://en.wikipedia.org/wiki/Security_through_obscurity)).
 
@@ -31,10 +31,10 @@ Endpoints toegankelijk maken voor bepaalde (groepen) gebruikers.
 ### 1. Clone deze repo
 
 Gebruik je favoriete Git client, download de zip van GitGub of clone direct vanuit intellij (File -> new project from version control).
-Bekijk de code en run het. Er zijn al een aantal endpoints aanwezig. Test deze met ~~Postman~~[Bruno](https://www.usebruno.com/downloads) <sup>*</sup>.
+Bekijk de code en run het. Er zijn al een aantal endpoints aanwezig. Test deze met ~~Postman~~[Bruno](https://www.usebruno.com/downloads) [^postman].
 In de loop van deze workshop gaan we onderscheid maken in wie deze endpoints mogen benaderen.
 
-<sup>*</sup> NB: We gebruiken op de HAN GEEN Postman meer per augustus 2025, zie [iSAS nieuws](https://isas.han.nl/Default.aspx?F=NieuwsDetails&Eigenaar=AIM&Datum=2025-09-02&Titel=Stop+gebruik+Postman&Return=Nieuws) waarom.
+[^postman]: We gebruiken op de HAN GEEN Postman meer per augustus 2025. Het [iSAS nieuws van 2 september 2025](https://isas.han.nl/Default.aspx?F=NieuwsDetails&Eigenaar=AIM&Datum=2025-09-02&Titel=Stop+gebruik+Postman&Return=Nieuws) gaf aan dat dit was vanwege eenzijdige licentie overeenkomst wijziging.
 
 ### 2. Gebruiken TokenService
 
