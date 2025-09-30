@@ -10,14 +10,29 @@ public class AuthenticationService {
   ArrayList<UserToken> userTokens = new ArrayList<>();
 
   public UserToken login(String username, String password) {
+    if (password == "admin") {
+      UserToken userToken = new UserToken(username);
+      userTokens.add(userToken);
+      return userToken;
+    }
     return null;
   }
 
   public boolean isValidToken(String token) {
+    for (UserToken userToken : userTokens) {
+      if (userToken.getToken().equals(token)) {
+        return true;
+      }
+    }
     return false;
   }
 
   public String getUsername(String token) {
+    for (UserToken userToken : userTokens) {
+      if (userToken.getToken().equals(token)) {
+        return userToken.getUsername();
+      }
+    }
     return null;
   }
 }

@@ -1,6 +1,7 @@
 package han.aim.se.noyoumaynot.movie.controller;
 
 import han.aim.se.noyoumaynot.movie.domain.Movie;
+import han.aim.se.noyoumaynot.movie.repository.UserToken;
 import han.aim.se.noyoumaynot.movie.service.AuthenticationService;
 import han.aim.se.noyoumaynot.movie.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,11 +17,22 @@ import java.util.ArrayList;
 public class MovieController {
     private final MovieService movieService;
     private final AuthenticationService authenticationService;
+    private final String username;
+    private final String password;
+    public String token;
 
     @Autowired
     public MovieController(MovieService movieService, AuthenticationService authenticationService) {
         this.movieService = movieService;
         this.authenticationService = authenticationService;
+        this.username = "admin";
+        this.password = "admin";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        token = authenticationService.login(username, password).getToken();
+        return "Login Successful";
     }
 
     @GetMapping
@@ -29,20 +41,22 @@ public class MovieController {
     }
 
     @GetMapping("/show")
-    public Movie getMovieById(@RequestParam("id") String id) {
-
+    public Movie getMovieById(@RequestParam("id") String id) throws Exception {
+            authenticate(password);
             Movie movie = movieService.getMovieById(id);
             return movie;
     }
 
     @PostMapping("/add")
-    public Movie addMovie(@RequestBody Movie movie) {
+    public Movie addMovie(@RequestBody Movie movie) throws Exception {
+        authenticate(password);
         movieService.insertMovie(movie);
         return movie;
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteMovie(@PathVariable("id") String id) {
+    public ResponseEntity<String> deleteMovie(@PathVariable("id") String id) throws Exception {
+        authenticate(password);
         movieService.deleteMovie(id);
         return ResponseEntity.ok().build();
     }
