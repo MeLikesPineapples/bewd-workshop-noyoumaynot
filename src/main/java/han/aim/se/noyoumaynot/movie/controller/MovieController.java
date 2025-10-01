@@ -1,6 +1,7 @@
 package han.aim.se.noyoumaynot.movie.controller;
 
 import han.aim.se.noyoumaynot.movie.domain.Movie;
+import han.aim.se.noyoumaynot.movie.domain.User;
 import han.aim.se.noyoumaynot.movie.repository.UserToken;
 import han.aim.se.noyoumaynot.movie.service.AuthenticationService;
 import han.aim.se.noyoumaynot.movie.service.MovieService;
@@ -26,14 +27,15 @@ public class MovieController {
         this.authenticationService = authenticationService;
     }
 
-    @GetMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        token = authenticationService.login(username, password).getToken();
-        return "Login Successful";
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        token = authenticationService.login(user.getUsername(), user.getPassword()).getToken();
+        return token;
     }
 
     @GetMapping
-    public ArrayList<Movie> getAllMovies() {
+    public ArrayList<Movie> getAllMovies(@RequestParam String token, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) throws Exception {
+        authenticate(token, authorization);
         return movieService.getMovieList();
     }
 

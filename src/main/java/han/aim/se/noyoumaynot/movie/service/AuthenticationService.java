@@ -20,7 +20,7 @@ public class AuthenticationService {
   }
 
   public UserToken login(String username, String password) {
-    if (password == "admin") {
+    if (password.equals("admin")) {
       UserToken userToken = new UserToken(username);
       userTokens.add(userToken);
       return userToken;
