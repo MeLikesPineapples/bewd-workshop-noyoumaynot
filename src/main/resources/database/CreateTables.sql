@@ -1,0 +1,6 @@
+CREATE TABLE Movies(
+    id INT AUTO_INCREMENT,
+    name VARCHAR(30) NOT NULL
+
+    CONSTRAINT PK_movies PRIMARY KEY (id)
+)
