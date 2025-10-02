@@ -5,6 +5,7 @@ import han.aim.se.noyoumaynot.movie.domain.User;
 import han.aim.se.noyoumaynot.movie.repository.UserToken;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 
 @Service
@@ -15,17 +16,27 @@ public class AuthenticationService {
   Role admin = new Role("admin", true);
 
   public AuthenticationService() {
-    users.add(new User("Bob","Build"));
-    users.add(new User("John","Doe"));
+    users.add(new User("Bob","Build", user));
+    users.add(new User("John","Doe", admin));
   }
 
+<<<<<<< Updated upstream
   public UserToken login(String username, String password) {
     if (password.equals("admin")) {
       UserToken userToken = new UserToken(username);
       userTokens.add(userToken);
       return userToken;
+=======
+  public String login(String username, String password) {
+    for (User user : users) {
+      if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+        UserToken userToken = new UserToken(username);
+        userTokens.add(userToken);
+        return userToken.getToken();
+      }
+>>>>>>> Stashed changes
     }
-    return null;
+    return "Login failed, wrong username or password";
   }
 
   public boolean isValidToken(String token) {
@@ -37,13 +48,13 @@ public class AuthenticationService {
     return false;
   }
 
-  public boolean isAdmin(String token, String username) {
+  public boolean isAdmin(String token, User user) throws AuthenticationException {
     for (UserToken userToken : userTokens) {
-      if (userToken.getUsername().equals(admin.getName()) && userToken.getToken().equals(token)) {
-
+      if (user.getRole().getAdmin() && userToken.getToken().equals(token)) {
+        return true;
       }
     }
-    return false;
+    throw new AuthenticationException("Unauthorized role detected");
   }
 
   public String getUsername(String token) {

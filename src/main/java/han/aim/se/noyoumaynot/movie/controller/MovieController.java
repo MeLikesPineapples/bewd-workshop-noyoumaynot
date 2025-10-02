@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class MovieController {
     private final MovieService movieService;
     private final AuthenticationService authenticationService;
+    public User user;
     public String token;
 
     @Autowired
@@ -29,7 +30,12 @@ public class MovieController {
 
     @PostMapping("/login")
     public String login(@RequestBody User user) {
+<<<<<<< Updated upstream
         token = authenticationService.login(user.getUsername(), user.getPassword()).getToken();
+=======
+        token = authenticationService.login(user.getUsername(), user.getPassword());
+        this.user = user;
+>>>>>>> Stashed changes
         return token;
     }
 
@@ -49,15 +55,21 @@ public class MovieController {
     @PostMapping("/add")
     public Movie addMovie(@RequestBody Movie movie, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) throws Exception {
         authenticate(token, authorization);
-        movieService.insertMovie(movie);
-        return movie;
+        if(authenticationService.isAdmin(token, user)) {
+            movieService.insertMovie(movie);
+            return movie;
+        }
+        return null;
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteMovie(@PathVariable("id") String id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) throws Exception {
         authenticate(token, authorization);
-        movieService.deleteMovie(id);
-        return ResponseEntity.ok().build();
+        if(authenticationService.isAdmin(token, user)) {
+            movieService.deleteMovie(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(403).build();
     }
 
     private String authenticate(String token, String authorization) throws Exception {
